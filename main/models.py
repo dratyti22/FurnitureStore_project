@@ -19,3 +19,14 @@ class StocksIndex(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class BannerIndex(models.Model):
+    text = models.CharField(max_length=100, verbose_name='Текст')
+    image = models.ImageField(upload_to='index_images/banners',
+                              verbose_name="Изображение")
+
+    class Meta:
+        db_table = 'banner_index'
+        verbose_name = 'Баннер'
+        verbose_name_plural = 'Баннеры'
