@@ -3763,7 +3763,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .hero__slider--bg {
-  background: url(../img/slider/home1-slider1.webp);
+  /* background: url(../img/slider/home1-slider1.webp); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -3777,7 +3777,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .hero__slider--bg.slider2 {
-  background: url(../img/slider/home1-slider2.webp);
+  /* background: url(../img/slider/home1-slider2.webp); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -3791,7 +3791,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .hero__slider--bg.slider3 {
-  background: url(../img/slider/home1-slider3.webp);
+  /* background: url(../img/slider/home1-slider3.webp); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -4056,7 +4056,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .hero__slider--bg2 {
-  background: url(../img/slider/home2-slider1.webp);
+  /* background: url(../img/slider/home2-slider1.webp); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -4164,7 +4164,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .hero__slider--bg3 {
-  background: url(../img/slider/home3-slider1.webp);
+  /* background: url(../img/slider/home3-slider1.webp); */
   background-repeat: no-repeat;
   background-attachment: scroll;
   background-position: center center;
@@ -4338,20 +4338,7 @@ input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
   visibility: visible;
 }
-
-@media only screen and (max-width: 767px) {
-  .product__tab--btn {
-    -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .product__tab--btn.style2 {
-    margin-top: 2rem;
-  }
-}
-
+/* начало акции*/
 .product__tab--btn__list {
   font-size: 1.6rem;
   height: 3.2rem;
@@ -4424,6 +4411,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .product__tab--btn__list.style2.active {
   color: var(--secondary-color);
 }
+/* конец акции*/
 
 .product__swiper--column4 {
   padding: 0 2px 2px;

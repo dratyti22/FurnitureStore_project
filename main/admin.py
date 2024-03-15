@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import StocksIndex, BannerIndex
+from main.models import PopularItems, PopularItemsProduct, PopularItemsTitle, StocksIndex, BannerIndex
 
 
 @admin.register(StocksIndex)
@@ -15,3 +15,18 @@ class StocksIndexAdmin(admin.ModelAdmin):
 @admin.register(BannerIndex)
 class BannerIndexAdmin(admin.ModelAdmin):
     list_display = ['text']
+
+
+@admin.register(PopularItemsTitle)
+class PopularItemsTitleAdmin(admin.ModelAdmin):
+    list_display = ['text']
+
+
+@admin.register(PopularItems)
+class PopularItemsAdmin(admin.ModelAdmin):
+    list_display = ['category']  # Change 'title' to 'category'
+
+
+@admin.register(PopularItemsProduct)
+class PopularItemsProductAdmin(admin.ModelAdmin):
+    list_display = ['item', 'product', 'quantity_page']
