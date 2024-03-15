@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
 
     'main',
+    'carts',
 ]
 
 MIDDLEWARE = [
@@ -79,10 +80,16 @@ WSGI_APPLICATION = 'FurnitureStore.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+from env import NAME, USER, PASSWORD, HOST, PORT
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': NAME,
+        'USER': USER,
+        'PASSWORD': PASSWORD,
+        'HOST': HOST,
+        'PORT': PORT,
     }
 }
 
