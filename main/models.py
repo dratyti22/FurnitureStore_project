@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 
@@ -73,3 +74,17 @@ class PopularItemsProduct(models.Model):
         db_table = 'popular_items_product'
         verbose_name = 'Популярный товар'
         verbose_name_plural = 'Популярные товары'
+
+
+class SocialNetwork(models.Model):
+    url = models.URLField(null=True, blank=True,
+                          verbose_name='Ссылка на социальную сеть')
+    name = models.CharField(
+        max_length=100, verbose_name='Название социальной сети')
+    image = models.FileField(upload_to='index_images/social_network',
+                             verbose_name="Изображение(svg format)", validators=[FileExtensionValidator(['svg'])])
+
+    class Meta:
+        db_table = 'social_network'
+        verbose_name = 'Социальная сеть'
+        verbose_name_plural = 'Социальные сети'

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from main.models import PopularItems, PopularItemsProduct, PopularItemsTitle, StocksIndex, BannerIndex
+from main.models import PopularItems, PopularItemsProduct, PopularItemsTitle, SocialNetwork, StocksIndex, BannerIndex
 
 
 @admin.register(StocksIndex)
@@ -30,3 +30,8 @@ class PopularItemsAdmin(admin.ModelAdmin):
 @admin.register(PopularItemsProduct)
 class PopularItemsProductAdmin(admin.ModelAdmin):
     list_display = ['item', 'product', 'quantity_page']
+
+
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+    list_display = ['name', 'url']
