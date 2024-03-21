@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.urls import reverse
 
+from main.models import SocialNetwork
+
 from .forms import UserRegistrationForm, UserLoginForm
 
 
@@ -47,3 +49,20 @@ def login(request):
         'formlog': formlog,
     }
     return render(request, 'users/login.html', context)
+
+
+def account(request):
+    social_network = SocialNetwork.objects.all()
+    context = {
+        'title': "Furea - Профиль",
+        "language": True,
+        "currency": False,
+        'social_network': social_network,
+        'username': request.user.username,
+    }
+    return render(request, 'users/account.html', context)
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect(reverse("main:index"))

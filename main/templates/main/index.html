@@ -1276,10 +1276,12 @@
                                 </svg>
                             </h2>
                             <ul class="footer__widget--menu footer__widget--inner">
-                                <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="my-account.html">My Account</a></li>
+                                {% if not user.is_authenticated %}
+                                    <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{% url "user:login" %}">Login</a></li>
+                                {% else %}
+                                    <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="{% url 'user:account' %}">My Account</a></li>
+                                {% endif %}
                                 <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="cart.html">Shopping Cart</a></li>
-                                <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="login.html">Login</a></li>
-                                <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="login.html">Register</a></li>
                                 <li class="footer__widget--menu__list"><a class="footer__widget--menu__text" href="checkout.html">Checkout</a></li>
                             </ul>
                         </div>
