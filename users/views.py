@@ -56,10 +56,10 @@ def account(request):
     if request.method == 'POST':
         form = UserAccountAdressForm(data=request.POST)
         if form.is_valid():
-            user = request.user 
+            user = request.user
             addres = form.cleaned_data['addres']
-            user.addres = addres 
-            user.save() 
+            user.addres = addres
+            user.save()
             return redirect(reverse("users:account"))
     else:
         form = UserAccountAdressForm()
