@@ -21,3 +21,12 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class UserAccountAdressForm(forms.ModelForm):
+    addres = forms.TextInput()
+    delete_address = forms.TextInput()
+
+    class Meta:
+        model = User
+        fields = ['addres']

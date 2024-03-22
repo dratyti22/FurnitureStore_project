@@ -7,6 +7,7 @@ class User(AbstractUser):
                               verbose_name='Фотография пользователя')
     phone_number = models.CharField(
         max_length=10, null=True, blank=True, verbose_name="Номер телефона")
+    addres = models.TextField(null=True, blank=True, verbose_name="Адрес пользователя")
 
     class Meta:
         db_table = "user"

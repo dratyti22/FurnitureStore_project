@@ -1,11 +1,12 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.urls import reverse
 
 from main.models import SocialNetwork
+from users.models import User
 
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserAccountAdressForm, UserRegistrationForm, UserLoginForm
 
 
 def registration(request):
@@ -52,15 +53,39 @@ def login(request):
 
 
 def account(request):
+    if request.method == 'POST':
+        form = UserAccountAdressForm(data=request.POST)
+        if form.is_valid():
+            user = request.user 
+            addres = form.cleaned_data['addres']
+            user.addres = addres 
+            user.save() 
+            return redirect(reverse("users:account"))
+    else:
+        form = UserAccountAdressForm()
+
     social_network = SocialNetwork.objects.all()
+    user = User.objects.get(username=request.user.username)
     context = {
         'title': "Furea - Профиль",
         "language": True,
         "currency": False,
         'social_network': social_network,
         'username': request.user.username,
+        'user': user,
+        'form': form,  # Передаем форму в контекст шаблона
     }
     return render(request, 'users/account.html', context)
+
+
+def delete_address(request):
+    if request.method == 'DELETE':
+        user = request.user
+        user.addres = None
+        user.save()
+        return JsonResponse({'message': 'Address successfully deleted!'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
 
 
 def logout(request):

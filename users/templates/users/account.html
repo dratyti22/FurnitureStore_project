@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}
 {{ title }}
 {% endblock title %}
@@ -71,7 +72,7 @@
                         <div class="breadcrumb__content">
                             <h1 class="breadcrumb__content--title text-white mb-10">My Account</h1>
                             <ul class="breadcrumb__content--menu d-flex">
-                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Home</a></li>
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="{% url "main:index" %}">Home</a></li>
                                 <li class="breadcrumb__content--menu__items"><span class="text-white">My Account</span></li>
                             </ul>
                         </div>
@@ -83,16 +84,15 @@
         
         <!-- my account section start -->
         <section class="my__account--section section--padding">
-            <div class="container">
+            <div class="container" id="order">
                 <p class="account__welcome--text">Hello, {{ username }} welcome to your dashboard!</p>
                 <div class="my__account--section__inner border-radius-10 d-flex">
                     <div class="account__left--sidebar">
                         <h3 class="account__content--title mb-20">My Profile</h3>
                         <ul class="account__menu">
-                            <li class="account__menu--list active"><a href="my-account.html">Dashboard</a></li>
-                            <li class="account__menu--list"><a href="my-account-2.html">Addresses</a></li>
-                            <li class="account__menu--list"><a href="wishlist.html">Wishlist</a></li>
-                            <li class="account__menu--list"><a href="login.html">Log Out</a></li>
+                            <li class="account__menu--list active" id="order"><a>Dashboard</a></li>
+                            <li class="account__menu--list" id="addresses"><a>Addresses</a></li>
+                            <li class="account__menu--list" id="wishlist"><a>Wishlist</a></li>
                         </ul>
                     </div>
                     <div class="account__wrapper">
@@ -124,6 +124,48 @@
                     </div>
                 </div>
             </div>
+            <div class="container" id="addres">
+                <div class="my__account--section__inner border-radius-10 d-flex">
+                    <div class="account__left--sidebar">
+                        <h3 class="account__content--title mb-20">My Profile</h3>
+                        <ul class="account__menu">
+                            <li class="account__menu--list" id="dashboard"><a>Dashboard</a></li>
+                            <li class="account__menu--list active" id="addres"><a>Addresses</a></li>
+                            <li class="account__menu--list" id="wishlist"><a>Wishlist</a></li>
+                        </ul>
+                    </div>
+                    <div class="account__wrapper">
+                        <div class="account__content">
+                            <h3 class="account__content--title mb-20">Addresses</h3>
+                            <form action="{% url "user:account" %}" method="post">
+                                {% csrf_token %}
+                                {% if not user.addres %}
+                                    <button class="new__address--btn primary__btn mb-25" type="button" onclick="showAddressForm()">Add a new address</button>
+                                    <div id="newAddressForm" style="display: none;">
+                                        <textarea name="addres" id="id_addres" rows="4" cols="50" placeholder="Enter your new address"></textarea>
+                                        <button class="new__address--submit primary__btn" type="submit" 
+                                        for="id_addres">Save Address</button>
+                                    </div>
+                                {% else %}
+                                    <div class="account__details two">
+                                        <p class="account__details--desc">{{ user.addres }}</p>
+                                    </div>
+                                    <div class="account__details--footer d-flex">
+                                        <button class="account__details--footer__btn" type="button" onclick="showEditForm()">Edit</button>
+                                        <button class="account__details--footer__btn" type="button" onclick="deleteAddress()">Delete</button>
+                                    </div>
+                                    <div id="editForm" style="display: none;">
+                                        <textarea name="addres" id="id_addres" rows="4" cols="50">{{ user.addres }}</textarea>
+                                        <button class="new__address--submit primary__btn" type="submit"
+                                        for="id_addres">Update Address</button>
+                                    </div>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </section>
         <!-- my account section end -->
 
