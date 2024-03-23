@@ -70,12 +70,12 @@
                                     </ul>
                                 </li>
                                 <li class="header__menu--items mega__menu--items">
-                                    <a class="header__menu--link" href="shop.html">Shop <span class="menu__plus--icon">+</span></a>
+                                    <a class="header__menu--link" href="{% url "shop:shoping" %}">Shop <span class="menu__plus--icon">+</span></a>
                                     <ul class="header__mega--menu d-flex">
                                         <li class="header__mega--menu__li">
                                             <span class="header__mega--subtitle">Column One</span>
                                             <ul class="header__mega--sub__menu">
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="shop.html">Shop Left Sidebar</a></li>
+                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="{% url "shop:shoping" %}">Shop Left Sidebar</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="shop-grid.html">Shop Grid</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="shop-grid-list.html">Shop Grid List</a></li>
@@ -114,7 +114,6 @@
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="cart.html">Cart Page</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="checkout.html">Checkout page</a></li>
                                                 <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="wishlist.html">Wishlist Page</a></li>
-                                                <li class="header__mega--sub__menu_li"><a class="header__mega--sub__menu--title" href="404.html">Error Page</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -157,7 +156,7 @@
                     </div>
                     <div class="header__account">
                         <ul class="d-flex">
-                            <li class="header__account--items  header__account--search__items d-md-none">
+                            <li class="header__account--items  header__account--search__items "> <!--d-md-none что бы небыло кнопки поиска-->
                                 <a class="header__account--btn search__open--btn" href="javascript:void(0)">
                                     <svg class="header__search--button__svg" xmlns="http://www.w3.org/2000/svg" width="26.51" height="23.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"/></svg>  
                                     <span class="visually-hidden">Search</span>
