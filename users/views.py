@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib import auth
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from main.models import SocialNetwork
 from users.models import User
@@ -35,14 +36,15 @@ def login(request):
     if request.method == 'POST':
         formlog = UserLoginForm(data=request.POST)
         if formlog.is_valid():
-            email = formlog.cleaned_data['email']
-            password = formlog.cleaned_data['password']
-            user = auth.authenticate(email=email, password=password)
-            if user is not None:
+            username = request.POST['username']
+            password = request.POST['password']
+            user = auth.authenticate(username=username, password=password)
+            if user:
                 auth.login(request, user)
-                return redirect(reverse("main:index"))
+                return HttpResponseRedirect(reverse("main:index"))
     else:
         formlog = UserLoginForm()
+
     context = {
         'title': "Furea - Авторизация",
         "language": True,
@@ -52,6 +54,7 @@ def login(request):
     return render(request, 'users/login.html', context)
 
 
+@login_required
 def account(request):
     if request.method == 'POST':
         form = UserAccountAdressForm(data=request.POST)
