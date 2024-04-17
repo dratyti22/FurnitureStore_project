@@ -1,6 +1,5 @@
 from typing import Any
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.template import loader
 from django.views.generic import View
 
@@ -16,8 +15,3 @@ class HomeListView(View):
         context = super().get_context_data(**kwargs)
         context["title"] = "Home"
         return context
-# def HomeListView(request):
-#     context = {
-#         "title": "Home"
-#     }
-#     return render(request, "home/home.html", context)
