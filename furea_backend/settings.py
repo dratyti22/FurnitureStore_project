@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "app.home.apps.HomeConfig",
+    "app.users.apps.UsersConfig",
 
     "mptt",
     'debug_toolbar',

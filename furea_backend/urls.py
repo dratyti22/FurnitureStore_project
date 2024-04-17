@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("app.home.urls", namespace="home"))
+    path("", include("app.home.urls", namespace="home")),
+    path("user/", include("app.users.urls", namespace="users")),
 ]
+
 if settings.DEBUG:
     urlpatterns += [path("__debug__/", include("debug_toolbar.urls")),]
     urlpatterns += static(settings.MEDIA_URL,
