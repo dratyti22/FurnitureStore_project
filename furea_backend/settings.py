@@ -144,6 +144,9 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "users.UserModel"
+AUTHENTICATION_BACKENDS = [
+    'app.users.backends.UserModelBackend'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

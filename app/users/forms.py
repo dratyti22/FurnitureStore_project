@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import UserModel
 
 
@@ -19,3 +19,11 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError(
                 'Такой email уже используется в системе')
         return email
+
+
+class UserLoginForm(AuthenticationForm):
+    """
+    Форма для аутификации пользователя
+    """
+    class Meta:
+        model = UserModel
