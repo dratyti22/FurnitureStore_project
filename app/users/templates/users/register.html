@@ -1,0 +1,65 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <div class="login__section section--padding">
+        <div class="container">
+            <form action="{% url "users:register" %}" method="post" >
+                {% csrf_token %}
+                <div class="login__section--inner">
+                    <div class="row row-cols-md-2 row-cols-1">
+                        <div class="col">
+                            <div class="account__login register">
+                                <div class="account__login--header mb-25">
+                                    <h3 class="account__login--header__title mb-10">Create an Account</h3>
+                                    <p class="account__login--header__desc">Register here if you are a new customer</p>
+                                </div>
+                                <div class="account__login--inner">
+                                    <label for="id_username">
+                                        <input id="id_username" name="username" class="account__login--input" 
+                                        placeholder="Username" type="text"
+                                        value="{% if form.username.value %}{{ form.username.value }}{% endif %}" required>
+                                        {% if form.username.errors %}
+                                        <p class="account__login--header__desc">{{ form.username.errors }}</p>
+                                        {% endif %}
+                                    </label>
+                                    <label for="id_email">
+                                        <input id="id_email" name="email" class="account__login--input" 
+                                        placeholder="Email Addres" type="email" required
+                                        value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+                                        {% if form.email.errors %}
+                                        <p class="account__login--header__desc">{{ form.email.errors }}</p>
+                                        {% endif %}
+                                    </label>
+                                    <label for="id_password1">
+                                        <input id="id_password1" name="password1" class="account__login--input" 
+                                        placeholder="Password" type="password"  required>
+                                        {% if form.password1.errors %}
+                                        <p class="account__login--header__desc">{{ form.password1.errors }}</p>
+                                        {% endif %}
+                                    </label>
+                                    <label for="id_password2">
+                                        <input id="id_password2" name="password2" class="account__login--input" 
+                                        placeholder="Confirm Password" type="password" required>
+                                        {% if form.password2.errors %}
+                                        <p class="account__login--header__desc">{{ form.password2.errors }}</p>
+                                        {% endif %}
+                                    </label>
+                                    <label>
+                                        <button class="account__login--btn primary__btn mb-10" type="submit">Submit & Register</button>
+                                    </label>
+                                    <div class="account__login--remember position__relative">
+                                        <input class="checkout__checkbox--input" id="check2" type="checkbox">
+                                        <span class="checkout__checkbox--checkmark"></span>
+                                        <label class="checkout__checkbox--label login__remember--label" for="check2">
+                                            I have read and agree to the terms & conditions</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>     
+    </div>
+{% endblock content %}
