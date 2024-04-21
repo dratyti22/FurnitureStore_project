@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     "app.home.apps.HomeConfig",
     "app.users.apps.UsersConfig",
+    "app.goods.apps.GoodsConfig",
 
     "mptt",
     'debug_toolbar',
