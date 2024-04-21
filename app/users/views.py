@@ -1,9 +1,12 @@
+from typing import Any
 from django.contrib import auth
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
+
+from app.users.models import UserModel
 
 from .forms import UserRegisterForm, UserLoginForm
 
@@ -54,4 +57,15 @@ class UserAccountView(View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Account"
+        return context
+
+
+class UserAddressView(View):
+
+    def get(self, request):
+        return render(request, "users/address.html")
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Address"
         return context
