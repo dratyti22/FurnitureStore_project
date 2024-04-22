@@ -68,7 +68,7 @@ class ColorProduct(models.Model):
 class SizeProduct(models.Model):
     color = models.ForeignKey(
         to=ColorProduct, related_name="size", on_delete=models.CASCADE)
-    size = models.CharField(max_length=255, verbose_name="Размер")
+    size = models.PositiveIntegerField(verbose_name="Размер")
     price = models.DecimalField(
         default=0.00, max_digits=7, decimal_places=2, verbose_name="Цена")
     discount = models.DecimalField(
@@ -94,7 +94,7 @@ class SizeProduct(models.Model):
         return self.price
 
     def save(self, *args, **kwargs):
-        self.slug = f"{self.color.product.name}-{self.color.color}-{self.size}"
+        self.slug = f"{self.color.product.slug}-{self.color.slug}-{self.size}"
         super().save(*args, **kwargs)
 
 
