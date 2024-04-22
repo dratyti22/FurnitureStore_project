@@ -8,7 +8,7 @@ class UserModel(AbstractUser):
                              verbose_name="Аватар",
                              blank=True,
                              validators=[FileExtensionValidator(allowed_extensions=('png', 'jpg', 'jpeg'))])
-    Addresses = models.TextField(verbose_name="Адрес", default="напишите адрес")
+    address = models.TextField(verbose_name="Адрес", default="напишите адрес")
 
     class Meta:
         db_table = "app_users"
