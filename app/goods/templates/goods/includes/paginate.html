@@ -1,0 +1,22 @@
+{% if is_paginated %}
+    <li class="pagination__list"><a href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}
+        #
+        {% endif %}" class="pagination__item--arrow  link ">
+        <svg xmlns="http://www.w3.org/2000/svg"  width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M244 400L100 256l144-144M120 256h292"/></svg></a>
+    <li>
+        {% for page_number in page_obj.paginator.get_elided_page_range %}
+                
+            {% if page_number == page_obj.ELLIPSIS %}
+                <li class="pagination__list"><span class="pagination__item pagination__item--current">{{ page_number }}</span></li>
+            {% else %}
+                <li class="pagination__list"><a href="?page={{ page_number }}" class="pagination__item link">{{ page_number }}</a></li>
+            {% endif %}
+
+            
+        {% endfor %}
+    <li class="pagination__list"><a href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}
+        # 
+        {% endif %}" class="pagination__item--arrow  link ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"/></svg></a>
+    <li>
+{% endif %}

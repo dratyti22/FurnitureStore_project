@@ -30,12 +30,17 @@ class CategoryModel(MPTTModel):
 
 
 class Product(models.Model):
+
+    class ProductManager(models.Manager):
+        def all(self):
+            return self.get_queryset().select_related("name").prefetch_related("color", "color__size", "color__image")
     category = models.ForeignKey(
         to=CategoryModel, related_name="product", on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название продукта")
     slug = models.SlugField(max_length=255, verbose_name="URL продукта")
     description = models.TextField(
         verbose_name="Описание")
+    objects = ProductManager()
 
     class Meta:
         ordering = ("name",)
@@ -52,7 +57,8 @@ class ColorProduct(models.Model):
         to=Product, related_name="color", on_delete=models.CASCADE)
     color = models.CharField(max_length=255, verbose_name="Цвет")
     slug = models.SlugField(max_length=255, verbose_name="URL категории")
-    image_color = models.ImageField(verbose_name="Фото цвета", blank=True, null=True, upload_to="image_color")
+    image_color = models.ImageField(
+        verbose_name="Фото цвета", blank=True, null=True, upload_to="image_color")
 
     class Meta:
         ordering = ("color",)
