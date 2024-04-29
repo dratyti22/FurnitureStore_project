@@ -48,9 +48,17 @@ INSTALLED_APPS = [
     "app.users.apps.UsersConfig",
     "app.goods.apps.GoodsConfig",
 
+    'django.contrib.sites',
     "mptt",
     'debug_toolbar',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.yandex',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'furea_backend.urls'
@@ -146,8 +155,29 @@ INTERNAL_IPS = [
 
 AUTH_USER_MODEL = "users.UserModel"
 AUTHENTICATION_BACKENDS = [
-    'app.users.backends.UserModelBackend'
+    'app.users.backends.UserModelBackend',
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'yandex': {
+        'APP': {
+            'client_id': env('YANDEX_CLIENT_ID'),
+            'secret': env('YANDEX_SECRET')
+        }
+    },
+    "github": {
+        "APP": {
+            'client_id': env('GITHUB_CLIENT_ID'),
+            'secret': env('GITHUB_SECRET')
+        }
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

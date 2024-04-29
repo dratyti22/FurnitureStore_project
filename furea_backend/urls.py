@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("app.home.urls", namespace="home")),
     path("user/", include("app.users.urls", namespace="users")),
     path("catalog/", include("app.goods.urls", namespace="catalog")),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:
