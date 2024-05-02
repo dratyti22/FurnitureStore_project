@@ -1,4 +1,5 @@
 {% extends "main.html" %}
+{% load socialaccount %}
 
 {% block content %}
 <div class="login__section section--padding">
@@ -36,16 +37,15 @@
                                         <label class="checkout__checkbox--label login__remember--label" for="check1">
                                             Remember me</label>
                                     </div>
-                                    <button class="account__login--forgot" type="submit">Forgot Your Password?</button>
+                                    <a class="account__login--forgot" type="submit" href="{% url "users:password_reset" %}">Forgot Your Password?</a>
                                 </div>
                                 <button class="account__login--btn primary__btn" type="submit">Login</button>
                                 <div class="account__login--divide">
                                     <span class="account__login--divide__text">OR</span>
                                 </div>
                                 <div class="account__social d-flex justify-content-center mb-15">
-                                    <a class="account__social--link facebook" target="_blank" href="https://www.facebook.com">Facebook</a>
-                                    <a class="account__social--link google" target="_blank" href="https://www.google.com">Google</a>
-                                    <a class="account__social--link twitter" target="_blank" href="https://twitter.com">Twitter</a>
+                                    <a class="account__social--link google" target="_blank" href="{% provider_login_url "github" %}">github</a>
+                                    <a class="account__social--link google" target="_blank" href="{% provider_login_url "yandex" %}">Yandex</a>
                                 </div>
                                 <p class="account__login--signup__text">Don,t Have an Account? <a href="{% url "users:register" %}">Sign up now</a></p>
                             </div>

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from .models import UserModel
 
 
@@ -27,3 +27,17 @@ class UserLoginForm(AuthenticationForm):
     """
     class Meta:
         model = UserModel
+
+
+class UserForgotPasswordForm(PasswordResetForm):
+    """
+    Форма для сброса пароля пользователя
+    """
+    ...
+
+
+class UserSetNewPasswordForm(SetPasswordForm):
+    """
+    Изменение пароля пользователя после подтверждения
+    """
+    ...
