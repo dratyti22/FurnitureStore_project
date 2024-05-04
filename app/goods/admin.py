@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CategoryModel, Product, SizeProduct, ColorProduct, ImageProduct
+from .models import CategoryModel, Product
 from mptt.admin import DraggableMPTTAdmin
 
 
@@ -17,23 +17,7 @@ class CategoryModelAdmin(DraggableMPTTAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug")
-    prepopulated_fields = {"slug": ("name",)}
-
-
-@admin.register(ColorProduct)
-class ColorProductAdmin(admin.ModelAdmin):
-    list_display = ("color",)
-    prepopulated_fields = {"slug": ("color",)}
-
-
-@admin.register(SizeProduct)
-class SizeProductAdmin(admin.ModelAdmin):
-    list_display = ("size", "price", "quantity", "discount", "slug")
+    list_display = ("name", "price", "discount", "quantity")
     list_editable = ("price", "discount", "quantity")
-    prepopulated_fields = {"slug": ("size",)}
-
-
-@admin.register(ImageProduct)
-class ImageProductAdmin(admin.ModelAdmin):
-    list_display = ('color', "image")
+    list_filter = ("id", "name", "price", "discount", "quantity")
+    prepopulated_fields = {'slug': ('name',"color", "size")}
