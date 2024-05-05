@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django.contrib.sites',
+    'django.contrib.postgres',
+
     "app.home.apps.HomeConfig",
     "app.users.apps.UsersConfig",
     "app.goods.apps.GoodsConfig",
 
-    'django.contrib.sites',
     "mptt",
     'debug_toolbar',
     'allauth',
@@ -100,7 +102,7 @@ WSGI_APPLICATION = 'furea_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB'),
+        'NAME': env('POSTGRES_DB_TEST'),
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('POSTGRES_HOST'),

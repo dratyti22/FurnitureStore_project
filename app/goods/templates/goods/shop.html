@@ -29,9 +29,9 @@
                 <div class="shop__sidebar--widget widget__area d-md-2-none">
                     <div class="single__widget widget__bg">
                         <h2 class="widget__title position__relative h3">Search</h2>
-                        <form class="widget__search--form" action="#">
+                        <form class="widget__search--form" action="{% url 'catalog:search'  %}" method="get", role="search">
                             <label>
-                                <input class="widget__search--form__input" placeholder="Search by" type="text">
+                                <input class="widget__search--form__input" placeholder="Search by" type="text" name="q" aria-label="Search" >
                             </label>
                             <button class="widget__search--form__btn"  type="submit">
                                 Search 
@@ -64,7 +64,7 @@
                             <button class="price__filter--btn primary__btn" type="submit">Filter</button>
                         </form>
                     </div>
-                    <div class="single__widget widget__bg">
+                    {% comment %} <div class="single__widget widget__bg">
                         <h2 class="widget__title position__relative h3">Dietary Needs</h2>
                         <ul class="widget__form--check">
                             <li class="widget__form--check__list">
@@ -93,8 +93,8 @@
                                 <span class="widget__form--checkmark"></span>
                             </li>
                         </ul>
-                    </div>
-                    <div class="single__widget widget__bg">
+                    </div> {% endcomment %}
+                    {% comment %} <div class="single__widget widget__bg">
                         <h2 class="widget__title position__relative h3">Top Rated Product</h2>
                         <div class="product__grid--inner">
                             <div class="product__items product__items--grid d-flex align-items-center">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="single__widget widget__bg">
                         <h2 class="widget__title position__relative h3">Brands</h2>
                         <ul class="widget__tagcloud">
