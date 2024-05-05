@@ -39,15 +39,20 @@
                         </form>
                     </div>
                     {% include "goods/includes/category_shop.html" %}
+
                     <div class="single__widget price__filter widget__bg">
                         <h2 class="widget__title position__relative h3">Filter By Price</h2>
-                        <form class="price__filter--form" action="#"> 
+                        <form class="price__filter--form" action="{% if request.GET.q %} {% url 'catalog:search' %} {% else %} 
+                        {% url 'catalog:filter' %} {% endif %}"> 
                             <div class="price__filter--form__inner mb-15 d-flex align-items-center">
                                 <div class="price__filter--group">
                                     <label class="price__filter--label" for="Filter-Price-GTE1">From</label>
                                     <div class="price__filter--input border-radius-5 d-flex align-items-center">
                                         <span class="price__filter--currency">$</span>
-                                        <input class="price__filter--input__field border-0" id="Filter-Price-GTE1" name="filter.v.price.gte" type="number" placeholder="0" min="0" max="250.00">
+                                        {% if request.GET.q %}
+                                            <input type="hidden" name="q" value="{{ request.GET.q }}" />
+                                        {% endif %}
+                                        <input class="price__filter--input__field border-0" id="Filter-Price-GTE1" name="min_price" type="number" placeholder="0" min="0">
                                     </div>
                                 </div>
                                 <div class="price__divider">
@@ -57,7 +62,7 @@
                                     <label class="price__filter--label" for="Filter-Price-LTE1">To</label>
                                     <div class="price__filter--input border-radius-5 d-flex align-items-center">
                                         <span class="price__filter--currency">$</span>
-                                        <input class="price__filter--input__field border-0" id="Filter-Price-LTE1" name="filter.v.price.lte" type="number" min="0" placeholder="250.00" max="250.00"> 
+                                        <input class="price__filter--input__field border-0" id="Filter-Price-LTE1" name="max_price" type="number" min="0" placeholder="250.00"> 
                                     </div>	
                                 </div>
                             </div>
@@ -189,14 +194,20 @@
                     <div class="product__view--mode d-flex align-items-center">
                         <div class="product__view--mode__list product__short--by align-items-center d-none d-lg-flex">
                             <label class="product__view--label">Sort By :</label>
-                            <div class="select shop__header--select">
-                                <select class="product__view--select">
-                                    <option selected value="1">Sort by latest</option>
-                                    <option value="2">Sort by popularity</option>
-                                    <option value="3">Sort by newness</option>
-                                    <option value="4">Sort by  rating </option>
-                                </select>
-                            </div>
+                            <form action="{% if request.GET.q %} {% url 'catalog:search' %} {% else %} 
+                            {% url 'catalog:filter' %} {% endif %}">
+                                <div class="select shop__header--select">
+                                    <select name="order_by" class="product__view--select">
+                                        <option {% if not request.GET.order_by or request.GET.order_by == "default" %}selected{% endif %} 
+                                            value="default">Sort by default</option>
+                                        <option {% if request.GET.order_by == "price" %}selected{% endif %}
+                                            value="price">Sort by from cheap to expensive</option>
+                                        <option {% if request.GET.order_by == "-price" %}selected{% endif %} 
+                                            value="-price">Sort by from expensive to cheap</option>
+                                    </select>
+                                </div>
+                                    <button class="widget__filter--btn__text" type="submit">Apply</button>
+                            </form>
                         </div>
                         <div class="product__view--mode__list">
                             <div class="product__grid--column__buttons d-flex justify-content-center">

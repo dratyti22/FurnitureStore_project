@@ -1,7 +1,9 @@
 from typing import Any
-from django.db.models.query import QuerySet
+from django.db.models import Q, Max
 from django.views.generic import ListView
-from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
+
+from app.goods.utils import q_search
+
 
 from .models import Product
 
@@ -22,7 +24,7 @@ class ShopListView(ListView):
         return queryset
 
 
-class ShopSearchResultView(ListView):
+class ShopResultView(ListView):
     model = Product
     template_name = "goods/shop.html"
     context_object_name = "product"
@@ -35,8 +37,20 @@ class ShopSearchResultView(ListView):
         return context
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        search_vector = SearchVector(
-            'description', weight='B') + SearchVector('name', weight='A')
-        search_query = SearchQuery(query)
-        return (self.model.objects.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.5).order_by('-rank'))
+        result = self.model.objects.all()
+
+        search = self.request.GET.get('q', None)
+        min_price = self.request.GET.get("min_price", None)
+        max_price = self.request.GET.get("max_price", None)
+        order_by = self.request.GET.get("order_by", None)
+
+        if search:
+            result = q_search(search)
+
+        if min_price or max_price:
+            result = result.exclude(
+                Q(price__lte=min_price) | Q(price__gte=max_price))
+        if order_by and order_by != 'default':
+            result = result.order_by(order_by)
+
+        return result
