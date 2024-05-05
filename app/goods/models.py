@@ -28,9 +28,22 @@ class CategoryModel(MPTTModel):
     def __str__(self):
         return self.name
 
+class Brands(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название бренда")
+    slug = models.SlugField(max_length=255, verbose_name="URL бренда")
+
+    class Meta:
+        db_table = "app_brend"
+        verbose_name = "Бренд"
+        verbose_name_plural = "Бренды"
+    
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
 
+    brand = models.ForeignKey(to=Brands,  related_name="products", on_delete=models.PROTECT)
     category = models.ForeignKey(
         to=CategoryModel, related_name="product", on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название продукта")
