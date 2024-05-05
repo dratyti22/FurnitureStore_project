@@ -31,9 +31,6 @@ class CategoryModel(MPTTModel):
 
 class Product(models.Model):
 
-    class ProductManager(models.Manager):
-        def all(self):
-            return self.get_queryset().select_related("name", "price", "discount")
     category = models.ForeignKey(
         to=CategoryModel, related_name="product", on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название продукта")
@@ -53,8 +50,6 @@ class Product(models.Model):
 
     image = models.ImageField(
         upload_to="product_images", verbose_name="Фото", null=True, blank=True)
-
-    objects = ProductManager()
 
     class Meta:
         ordering = ("id", "name", "price")
