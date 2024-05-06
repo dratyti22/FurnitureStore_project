@@ -28,6 +28,7 @@ class CategoryModel(MPTTModel):
     def __str__(self):
         return self.name
 
+
 class Brands(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название бренда")
     slug = models.SlugField(max_length=255, verbose_name="URL бренда")
@@ -36,14 +37,19 @@ class Brands(models.Model):
         db_table = "app_brend"
         verbose_name = "Бренд"
         verbose_name_plural = "Бренды"
-    
+
     def __str__(self):
         return self.name
 
 
 class Product(models.Model):
 
-    brand = models.ForeignKey(to=Brands,  related_name="products", on_delete=models.PROTECT)
+    class ProductManager(models.Manager):
+        def all(self):
+            return self.get_queryset().select_related("category",  "brand")
+
+    brand = models.ForeignKey(
+        to=Brands,  related_name="products", on_delete=models.PROTECT)
     category = models.ForeignKey(
         to=CategoryModel, related_name="product", on_delete=models.PROTECT)
     name = models.CharField(max_length=255, verbose_name="Название продукта")
@@ -63,6 +69,11 @@ class Product(models.Model):
 
     image = models.ImageField(
         upload_to="product_images", verbose_name="Фото", null=True, blank=True)
+
+    time_create = models.DateTimeField(
+        auto_now_add=True, verbose_name='Время добавления')
+
+    objects = ProductManager()
 
     class Meta:
         ordering = ("id", "name", "price")
