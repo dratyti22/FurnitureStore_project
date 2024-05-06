@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static goods_tags %}
+{% load cache %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
@@ -178,9 +179,11 @@
                                 <input type="hidden" name="q" value="{{ request.GET.q }}" />
                             {% endif %}
                             <ul class="widget__tagcloud" name="brand">
-                                {% for i in brands %}
-                                    <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" value="{{ i.name }}">{{ i.name }}</a></li>
-                                {% endfor %}
+                                {% cache 300 brand %}
+                                    {% for i in brands %}
+                                        <li class="widget__tagcloud--list"><a class="widget__tagcloud--link" value="{{ i.name }}">{{ i.name }}</a></li>
+                                    {% endfor %}
+                                {% endcache %}
                             </ul>
                             <button class="price__filter--btn primary__btn" type="submit">Apply</button>
                         </form>
@@ -253,6 +256,7 @@
                         <div id="product_grid" class="tab_pane active show">
                             <div class="product__section--inner product__grid--inner">
                                 <div class="row row-cols-xxl-4 row-cols-xl-3 row-cols-lg-3 row-cols-md-3 row-cols-2 mb--n30">
+                                    {% cache 300 product %}
                                     {% for i in product %}
                                     <div class="col mb-30">
                                         <div class="product__items ">
@@ -325,6 +329,7 @@
                                         </div>
                                     </div>
                                     {% endfor %}
+                                    {% endcache %}
                                 </div>
                             </div>
                         </div>
