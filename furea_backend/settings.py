@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "app.home.apps.HomeConfig",
     "app.users.apps.UsersConfig",
     "app.goods.apps.GoodsConfig",
+    "app.carts.apps.CartsConfig",
 
     "mptt",
     'debug_toolbar',
@@ -102,7 +103,7 @@ WSGI_APPLICATION = 'furea_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB_TEST'),
+        'NAME': env('POSTGRES_DB'),
         'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
         'HOST': env('POSTGRES_HOST'),
