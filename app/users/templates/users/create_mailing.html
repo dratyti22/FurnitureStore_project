@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="login__section section--padding">
+    <div class="container">
+        <form action="{% url "users:subscribe_newsletter" %}" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="login__section--inner">
+                <div class="row row-cols-md-2 row-cols-1">
+                    <div class="col">
+                        <div class="account__login">
+                            <div class="account__login--header mb-25">
+                                <h3 class="account__login--header__title mb-10">Email</h3>
+                                <p class="account__login--header__desc">Создайте песьмо для отправки пользователям</p>
+                            </div>
+                            <div class="account__login--inner">
+                                <label for="id_subject">
+                                    <input id="id_username" name="subject" class="account__login--input" 
+                                    placeholder="subject" type="text"
+                                    value="{% if form.subject.value %}{{ form.subject.value }}{% endif %}" required>
+                                    {% if form.subject.errors %}
+                                    <p class="account__login--header__desc">{{ form.subject.errors }}</p>
+                                    {% endif %}
+                                </label>
+                                <label for="id_message">
+                                    <input id="id_message" name="message" class="account__login--input" 
+                                    placeholder="message" type="text" required>
+                                    {% if form.message.errors %}
+                                    <p class="account__login--header__desc">{{ form.message.errors }}</p>
+                                    {% endif %}
+                                </label>
+                                <label for="id_img">
+                                    <input id="id_img" name="img" class="account__login--input" type="file" accept="image/*">
+                                    {% if form.img.errors %}
+                                        <p class="account__login--header__desc">{{ form.img.errors }}</p>
+                                    {% endif %}
+                                </label>    
+                                <button class="account__login--btn primary__btn" type="submit">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>     
+</div>
+{% endblock content %}

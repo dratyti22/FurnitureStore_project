@@ -8,11 +8,12 @@ from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from app.users.models import EmailMailingList, UserModel
-from .mixins import UserIsNotAuth
-from .forms import EmailMailingListForm, UserRegisterForm, UserLoginForm, UserForgotPasswordForm, UserSetNewPasswordForm
-from .email import send_activate_user, user_mailing_list
+from app.users.models import EmailMailing, EmailMailingList, UserModel
+from .mixins import UserIsNotAuth, UserIsNotOrdinary
+from .forms import EmailMailingForm, EmailMailingListForm, UserRegisterForm, UserLoginForm, UserForgotPasswordForm, UserSetNewPasswordForm
+from .email import send_activate_user, user_mailing_list, user_maling
 
 
 class UserRegisterView(CreateView, UserIsNotAuth):
@@ -57,10 +58,11 @@ class UserLogoutView(LogoutView):
     next_page = "home:home"
 
 
-class UserAccountView(View):
+class UserAccountView(View, LoginRequiredMixin):
     """
     Профиль пользователя
     """
+    login_url = reverse_lazy("users:login")
 
     def get(self, request, *args, **kwargs):
         return render(request, "users/account.html")
@@ -71,10 +73,11 @@ class UserAccountView(View):
         return context
 
 
-class UserAddressView(View):
+class UserAddressView(View, LoginRequiredMixin):
     """
     Профиль пользователя просмотр адреса
     """
+    login_url = reverse_lazy("users:login")
 
     def get(self, request):
         return render(request, "users/address.html")
@@ -157,6 +160,10 @@ class EmailConfirmationFailedView(TemplateView):
 
 
 class UserMailingListView(View):
+    """
+    Отправка письма о подписке на рассылку
+    """
+
     def post(self, request):
         form = EmailMailingListForm(data=request.POST)
         if form.is_valid():
@@ -169,3 +176,29 @@ class UserMailingListView(View):
                 form.save()
 
         return redirect("home:home")
+
+
+class UserMailingCreateView(UserIsNotOrdinary, CreateView):
+    """
+    Отправка рассылки superuser или работником
+    """
+    form_class = EmailMailingForm
+    template_name = "users/create_mailing.html"
+    model = EmailMailing
+    login_url = reverse_lazy("home:home")
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Писмо для рассылки"
+        return context
+
+    def form_valid(self, form):
+        form.save()
+        subject = form.cleaned_data["subject"]
+        message = form.cleaned_data["message"]
+        img = form.cleaned_data["img"]
+        user_maling(subject, message, img)
+        return super().form_valid(form)
+
+    def get_success_url(self) -> str:
+        return reverse_lazy("home:home")

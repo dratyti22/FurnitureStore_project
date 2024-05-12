@@ -1,0 +1,9 @@
+{% autoescape off %}
+{% if img %}
+    {{ img.url }}
+{% endif %}
+{{ message }}
+
+Рассылка с сайта: {{ current_site }}
+
+{% endautoescape %}

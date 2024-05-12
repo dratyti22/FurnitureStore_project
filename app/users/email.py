@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import Site
@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.shortcuts import get_object_or_404
 
-from .models import UserModel
+from .models import UserModel, EmailMailingList
 from django.conf import settings
 
 
@@ -50,3 +50,20 @@ def user_mailing_list(email, user_id=None):
     admin = ''.join(settings.EMAIL_ADMIN)
 
     send_mail(subject, message, admin, [email])
+
+
+def user_maling(subject, message, img=None):
+    model = EmailMailingList.objects.all()
+    current_site = Site.objects.get_current().domain
+    if img:
+        message = render_to_string('users/email/user_mailing.html',
+                                   {'message': message, 'img': img, 'current_site': current_site, })
+        print(img)
+    else:
+        message = render_to_string('users/email/user_mailing.html', {
+            'message': message,
+            'current_site': current_site,
+        })
+
+    for i in model:
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [i.email])
