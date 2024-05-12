@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
-from .models import UserModel
+from .models import EmailMailingList, UserModel
 
 
 class UserRegisterForm(UserCreationForm):
@@ -41,3 +41,9 @@ class UserSetNewPasswordForm(SetPasswordForm):
     Изменение пароля пользователя после подтверждения
     """
     ...
+
+
+class EmailMailingListForm(forms.ModelForm):
+    class Meta:
+        model = EmailMailingList
+        fields = ('email',)

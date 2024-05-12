@@ -17,3 +17,19 @@ class UserModel(AbstractUser):
 
     def __str__(self) -> str:
         return self.username
+
+
+class EmailMailingList(models.Model):
+    user = models.ForeignKey(to=UserModel, on_delete=models.CASCADE,
+                             verbose_name="Пользователь", null=True, blank=True)
+    email = models.EmailField(verbose_name="Email", unique=True)
+
+    class Meta:
+        db_table = "app_email_mailing_list"
+        verbose_name = "Подписка на рассылку"
+        verbose_name_plural = "Подписки на рассылку"
+
+    def __str__(self):
+        if self.user:
+            return f"Подписка: {self.user.username} | Email: {self.email}"
+        return self.email

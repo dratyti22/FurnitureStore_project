@@ -1,0 +1,10 @@
+{% autoescape off %}
+{% if user %}
+    Здравствуйте, {{ user.username}}!
+{% else %}
+    Здравствуйте!
+{% endif %}
+
+Вы подписались на рассылку на сайте: {{ current_site }}
+
+{% endautoescape %}

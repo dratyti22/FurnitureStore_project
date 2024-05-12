@@ -78,15 +78,17 @@
                         <div class="footer__newsletter footer__widget--inner">
                             <p class="footer__newsletter--desc">Get updates by subscribe our
                                 weekly newsletter</p>
-                            <form class="newsletter__subscribe--form__style position__relative" action="#">
-                                <label>
-                                    <input class="footer__newsletter--input newsletter__subscribe--input" placeholder="Enter your email address" type="email">
+                            <form class="newsletter__subscribe--form__style position__relative" action="{% url 'users:subscribe' %}" method="post">
+                                <label for="id_email">
+                                    <input class="footer__newsletter--input newsletter__subscribe--input" placeholder="Enter your email address" 
+                                    type="email" name="email" id="id_email">
                                 </label>
-                                <button class="footer__newsletter--button newsletter__subscribe--button primary__btn" type="submit">Subscribe
+                                <button class="footer__newsletter--button newsletter__subscribe--button primary__btn " type="submit">Subscribe
                                     <svg class="newsletter__subscribe--button__icon" xmlns="http://www.w3.org/2000/svg" width="9.159" height="7.85" viewBox="0 0 9.159 7.85">
                                         <path  data-name="Icon material-send" d="M3,12.35l9.154-3.925L3,4.5,3,7.553l6.542.872L3,9.3Z" transform="translate(-3 -4.5)" fill="currentColor"/>
                                     </svg>
                                 </button>
+                                {% csrf_token %}
                             </form> 
                         </div>
                     </div>

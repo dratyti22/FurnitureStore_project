@@ -20,4 +20,5 @@ urlpatterns = [
          name='email_confirmed'),
     path('confirm-email-failed/', views.EmailConfirmationFailedView.as_view(),
          name='email_confirmation_failed'),
+    path("subscribe/", views.UserMailingListView.as_view(), name="subscribe")
 ]

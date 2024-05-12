@@ -9,10 +9,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import login
 
-from app.users.models import UserModel
+from app.users.models import EmailMailingList, UserModel
 from .mixins import UserIsNotAuth
-from .forms import UserRegisterForm, UserLoginForm, UserForgotPasswordForm, UserSetNewPasswordForm
-from .email import send_activate_user
+from .forms import EmailMailingListForm, UserRegisterForm, UserLoginForm, UserForgotPasswordForm, UserSetNewPasswordForm
+from .email import send_activate_user, user_mailing_list
 
 
 class UserRegisterView(CreateView, UserIsNotAuth):
@@ -115,6 +115,7 @@ class UserConfirmEmailView(View):
     """
     Активация аккаунта пользователя
     """
+
     def get(self, request, uidb64, token):
         try:
             uid = urlsafe_base64_decode(uidb64)
@@ -153,3 +154,18 @@ class EmailConfirmationFailedView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Вы не актевировали свой аккаунт"
         return context
+
+
+class UserMailingListView(View):
+    def post(self, request):
+        form = EmailMailingListForm(data=request.POST)
+        if form.is_valid():
+            email = request.POST.get('email')
+            if request.user.is_authenticated:
+                user_mailing_list(email, request.user.id)
+                EmailMailingList.objects.create(email=email, user=request.user)
+            else:
+                user_mailing_list(email)
+                form.save()
+
+        return redirect("home:home")
