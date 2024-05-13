@@ -11,9 +11,10 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.users.models import EmailMailing, EmailMailingList, UserModel
-from .mixins import UserIsNotAuth, UserIsNotOrdinary
+from ..service.mixins import UserIsNotAuth, UserIsNotOrdinary
 from .forms import EmailMailingForm, EmailMailingListForm, UserRegisterForm, UserLoginForm, UserForgotPasswordForm, UserSetNewPasswordForm
-from .email import send_activate_user, user_mailing_list, user_maling
+from ..service.tasks import send_activate_user_task, user_mailing_list_task, user_maling_task
+from ..service.utils import CustomJsonEncoder
 
 
 class UserRegisterView(CreateView, UserIsNotAuth):
@@ -33,7 +34,7 @@ class UserRegisterView(CreateView, UserIsNotAuth):
         user = form.save(commit=False)
         user.is_active = False
         user.save()
-        send_activate_user(user.id)
+        send_activate_user_task.delay(user.id)
         return redirect("home:home")
 
 
@@ -169,10 +170,10 @@ class UserMailingListView(View):
         if form.is_valid():
             email = request.POST.get('email')
             if request.user.is_authenticated:
-                user_mailing_list(email, request.user.id)
+                user_mailing_list_task.delay(email, request.user.id)
                 EmailMailingList.objects.create(email=email, user=request.user)
             else:
-                user_mailing_list(email)
+                user_mailing_list_task.delay(email)
                 form.save()
 
         return redirect("home:home")
@@ -193,11 +194,13 @@ class UserMailingCreateView(UserIsNotOrdinary, CreateView):
         return context
 
     def form_valid(self, form):
-        form.save()
         subject = form.cleaned_data["subject"]
         message = form.cleaned_data["message"]
         img = form.cleaned_data["img"]
-        user_maling(subject, message, img)
+        if img:
+            img = CustomJsonEncoder().encode(img)
+        user_maling_task.delay(subject, message, img)
+        form.save()
         return super().form_valid(form)
 
     def get_success_url(self) -> str:

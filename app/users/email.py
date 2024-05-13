@@ -58,7 +58,6 @@ def user_maling(subject, message, img=None):
     if img:
         message = render_to_string('users/email/user_mailing.html',
                                    {'message': message, 'img': img, 'current_site': current_site, })
-        print(img)
     else:
         message = render_to_string('users/email/user_mailing.html', {
             'message': message,
