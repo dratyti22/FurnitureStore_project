@@ -1,5 +1,6 @@
+from typing import Any
 from django.db.models import Q
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from app.goods.utils import q_search
 
@@ -55,3 +56,15 @@ class ShopResultView(ShopListView):
             result = result.filter(brand__name=brand)
 
         return result
+
+
+class ProductDeteilView(DetailView):
+    model = Product
+    template_name = "goods/product_details.html"
+    context_object_name = "product_detail"
+    queryset = model.objects.all()
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Product Detail"
+        return context

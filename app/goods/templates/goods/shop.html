@@ -261,7 +261,7 @@
                                     <div class="col mb-30">
                                         <div class="product__items ">
                                             <div class="product__items--thumbnail">
-                                                <a class="product__items--link" href="product-details.html">
+                                                <a class="product__items--link" href="{{ i.get_absolute_url }}">
                                                     {% if i.image %}
                                                         <img class="product__items--img product__primary--img" src="{{ i.image.url }}" alt="{{ i.name }}">
                                                     {% else %}
@@ -310,7 +310,7 @@
                                                         <li class="product__items--color__list"><a class="product__items--color__link four" href="javascript:void(0)"><span class="visually-hidden">Color 4</span></a></li>
                                                     </ul>
                                                 </div>
-                                                    <h3 class="product__items--content__title h4"><a href="product-details.html">{{ i.name }}</a></h3>
+                                                    <h3 class="product__items--content__title h4"><a href="{{ i.get_absolute_url }}">{{ i.name }}</a></h3>
                                                     <div class="product__items--price">
                                                         {% if i.discount %}
                                                             <span class="current__price">${{ i.sell_price }}</span> <!-- цена со скидкой -->
@@ -342,7 +342,7 @@
                                         <div class="product__items product__list--items border-radius-5 d-flex align-items-center">
                                             <div class="product__list--items__left d-flex align-items-center">
                                                 <div class="product__items--thumbnail product__list--items__thumbnail">
-                                                    <a class="product__items--link" href="product-details.html">
+                                                    <a class="product__items--link" href="{{ i.get_absolute_url }}">
                                                         <img class="product__items--img product__primary--img" src="assets/img/product/product11.webp" alt="product-img">
                                                         <img class="product__items--img product__secondary--img" src="assets/img/product/product10.webp" alt="product-img">
                                                     </a>
@@ -352,7 +352,7 @@
                                                 </div>
                                                 <div class="product__list--items__content">
                                                     <span class="product__items--content__subtitle mb-5">{{ i.category.name }}</span>
-                                                    <h4 class="product__list--items__content--title mb-15"><a href="product-details.html">{{ i.name }}</a></h4>
+                                                    <h4 class="product__list--items__content--title mb-15"><a href="{{ i.get_absolute_url }}">{{ i.name }}</a></h4>
                                                     <p class="product__list--items__content--desc m-0">{{ i.description|truncatechars:170 }}</p>
                                                 </div>
                                             </div>
@@ -968,9 +968,6 @@
                 </div>
             </div>
         </div>
-
-    <!-- Scroll top bar -->
-    <button id="scroll__top"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 244l144-144 144 144M256 120v292"/></svg></button>
 
 {% endblock content %}
 

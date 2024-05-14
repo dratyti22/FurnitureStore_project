@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.urls import reverse
 
 
 class CategoryModel(MPTTModel):
@@ -90,3 +91,14 @@ class Product(models.Model):
             return Decimal(self.price - self.price * self.discount / 100).quantize(Decimal('0.01'))
 
         return self.price
+
+    def get_id(self):
+        return f"{self.id:05}"
+
+    def get_absolute_url(self):
+        return reverse('catalog:product_detail', kwargs={'pk': self.pk})
+    
+    def save(self, *args, **kwargs):
+        if not self.image:
+            self.image = "media/default_product.png"
+        super().save(*args, **kwargs)
