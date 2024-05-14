@@ -1,3 +1,4 @@
+from django.core.mail import EmailMessage
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.contrib.auth.tokens import default_token_generator
@@ -7,8 +8,10 @@ from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes
 from django.shortcuts import get_object_or_404
 
-from .models import UserModel, EmailMailingList
 from django.conf import settings
+
+from ..users.models import UserModel, EmailMailingList
+from .utils import title_in_message
 
 
 def send_activate_user(user_id):
@@ -53,6 +56,9 @@ def user_mailing_list(email, user_id=None):
 
 
 def user_maling(subject, message, img=None):
+    """
+    Рассылка сообщений
+    """
     model = EmailMailingList.objects.all()
     current_site = Site.objects.get_current().domain
     if img:
@@ -65,4 +71,22 @@ def user_maling(subject, message, img=None):
         })
 
     for i in model:
-        send_mail(subject, message, settings.EMAIL_HOST_USER, [i.email])
+        send_mail(subject, message, settings.EMAIL_ADMIN, [i.email])
+
+
+def send_contact_email_message(first_name, last_name, phone_number, email, message, user_id=None):
+    user = UserModel.objects.get(id=user_id)
+    subject = title_in_message(message)
+
+    message = render_to_string("users/email/contact_email.html",
+                               {"first_name": first_name,
+                                   "last_name": last_name,
+                                   "phone_number": phone_number,
+                                   "email": email,
+                                   "message": message,
+                                   "user": user
+                                })
+    admin = ''.join(settings.EMAIL_ADMIN)
+    email_admin = EmailMessage(subject, message, settings.EMAIL_SERVER, [admin])
+
+    email_admin.send(fail_silently=False)

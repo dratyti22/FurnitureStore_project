@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "app.users.apps.UsersConfig",
     "app.goods.apps.GoodsConfig",
     "app.carts.apps.CartsConfig",
+    "app.service",
 
     "mptt",
     'debug_toolbar',
