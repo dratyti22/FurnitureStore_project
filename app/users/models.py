@@ -7,7 +7,8 @@ class UserModel(AbstractUser):
     icon = models.ImageField(upload_to="user_images",
                              verbose_name="Аватар",
                              blank=True,
-                             validators=[FileExtensionValidator(allowed_extensions=('png', 'jpg', 'jpeg'))])
+                             validators=[FileExtensionValidator(allowed_extensions=('png', 'jpg', 'jpeg'))], 
+                             default="media/user_images/default.jpg")
     address = models.TextField(verbose_name="Адрес", default="напишите адрес")
 
     class Meta:

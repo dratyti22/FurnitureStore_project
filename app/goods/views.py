@@ -1,11 +1,15 @@
 from typing import Any
 from django.db.models import Q
-from django.views.generic import ListView, DetailView
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.views.generic import CreateView, ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
+from app.goods.forms import CommentCreateForm
 from app.goods.utils import q_search
 
 
-from .models import Brands, Product
+from .models import Brands, Comment, Product
 
 
 class ShopListView(ListView):
@@ -68,3 +72,38 @@ class ProductDeteilView(DetailView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Product Detail"
         return context
+
+
+class CommentCreateView(CreateView, LoginRequiredMixin):
+    model = Comment
+    form_class = CommentCreateForm
+
+    def is_ajax(self):
+        return self.request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    def form_invalid(self, form):
+        if self.is_ajax():
+            return JsonResponse({'error': form.errors}, status=400)
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        comment.user = self.request.user
+        comment.name = self.request.POST.get('name')
+        comment.message = self.request.POST.get('message')
+        comment.email = self.request.POST.get('email')
+        if self.is_ajax():
+            return JsonResponse({
+                'is_child': comment.is_child_node(),
+                'id': comment.id,
+                'name': comment.name,
+                'parent_id': comment.parent_id,
+                'time_create': comment.time_create.strftime('%Y-%b-%d %H:%M:%S'),
+                'avatar': comment.user.icon.url,
+                'message': comment.message,
+            }, status=200)
+        
+        return redirect(comment.product.get_absolute_url()), super().form_valid(form)
+
+    def handle_no_permission(self):
+        return JsonResponse({'error': 'Необходимо авторизоваться для добавления комментариев'}, status=400)
