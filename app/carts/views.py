@@ -1,18 +1,14 @@
-from django.http import JsonResponse
-from django.shortcuts import render
-from django.template.loader import render_to_string
+from typing import Any
+from django.shortcuts import redirect, render
+from django.views.generic import ListView
 
-from app.carts.models import Cart
+from app.carts.models import Cart, Wishlist
 from app.carts.utils import get_user_carts
 from app.goods.models import Product
 
 
-def add_cart(request):
-    product_id = request.POST.get("product_id")
-
-    print(product_id)
-
-    product = Product.objects.get(id=product_id)
+def add_cart(request, pk):
+    product = Product.objects.get(id=pk)
 
     if request.user.is_authenticated:
         cart = Cart.objects.filter(user=request.user, product=product)
@@ -24,13 +20,24 @@ def add_cart(request):
                 cart.save()
         else:
             Cart.objects.create(user=request.user, product=product, quantity=1)
+    return redirect(request.META.get("HTTP_REFERER"))
 
-    user_cart = get_user_carts(request)
-    cart_items_html = render_to_string(
-        "carts/includes/shopping_cart.html"
-    )
-    response_data = {
-        "cart_items_html": cart_items_html
-    }
 
-    return JsonResponse(response_data)
+def add_wishlist(request, pk):
+    product = Product.objects.get(id=pk)
+
+    Wishlist.objects.create(user=request.user, product=product,  quantity=1)
+
+    return redirect(request.META.get("HTTP_REFERER"))
+
+class WishlistListView(ListView):
+    model = Wishlist
+    template_name = "carts/wislist.html"
+    context_object_name = "wishlist"
+    queryset = model.objects.all()
+    
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Wishlist"
+        return context
+    

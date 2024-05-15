@@ -74,8 +74,8 @@
 
   <!-- Customscript js -->
   <script src="{% static 'assets/js/script.js' %}" defer="defer"></script>
-  <script src="{% static 'assets/js/script-ajax.js' %}" defer="defer"></script>
-  <script src="{% static 'assets/js/comment.js' %}" defer="defer"></script>
+  {% comment %} <script src="{% static 'assets/js/script-ajax.js' %}" defer="defer"></script>
+  <script src="{% static 'assets/js/comment.js' %}" defer="defer"></script> {% endcomment %}
   {% block scripts %}
   {% endblock scripts %}
 
