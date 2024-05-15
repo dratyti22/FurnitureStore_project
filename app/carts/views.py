@@ -30,14 +30,26 @@ def add_wishlist(request, pk):
 
     return redirect(request.META.get("HTTP_REFERER"))
 
+
 class WishlistListView(ListView):
     model = Wishlist
     template_name = "carts/wislist.html"
     context_object_name = "wishlist"
     queryset = model.objects.all()
-    
+
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["title"] = "Wishlist"
         return context
-    
+
+
+class CartListView(ListView):
+    model = Cart
+    template_name = "carts/cart.html"
+    context_object_name = "cart"
+    queryset = model.objects.all()
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Cart"
+        return context
